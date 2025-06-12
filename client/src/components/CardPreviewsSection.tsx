@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cardData, rarityConfig } from "@/data/cardData";
 import { useLanguage } from "@/hooks/use-language";
 import { translations } from "@/data/translations";
-import cardBackImage from "@assets/Reverse cards_1749497888826.jpeg";
+import cardBackImage from "/assets/Reverse cards_1749407177141.jpeg";
 
 const CardPreviewsSection = () => {
   const { language } = useLanguage();
