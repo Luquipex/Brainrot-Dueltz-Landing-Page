@@ -190,7 +190,7 @@ const CardPreviewsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          key={`legendary-${showAllCards}`}
+          key={`legendary-${showAllCards}-${language}`}
         >
           <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-center mb-8">
             <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent text-glow">
@@ -201,7 +201,7 @@ const CardPreviewsSection = () => {
             {!showAllCards ? (
               <>
                 {legendaryCards.slice(0, 1).map((card) => (
-                  <CardComponent key={card.id} card={card} language={language} />
+                  <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
                 ))}
                 <CardPlaceholder opacity={0.7} />
                 <CardPlaceholder opacity={0.7} />
@@ -209,7 +209,7 @@ const CardPreviewsSection = () => {
             ) : (
               <>
                 {legendaryCards.map((card) => (
-                  <CardComponent key={card.id} card={card} language={language} />
+                  <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
                 ))}
                 {/* Add placeholder cards for missing legendary designs */}
                 {Array.from({ length: Math.max(0, 6 - legendaryCards.length) }).map((_, index) => (
@@ -227,7 +227,7 @@ const CardPreviewsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          key={`epic-${showAllCards}`}
+          key={`epic-${showAllCards}-${language}`}
         >
           <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-center mb-8">
             <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-purple-500 bg-clip-text text-transparent text-glow">
@@ -238,7 +238,7 @@ const CardPreviewsSection = () => {
             {!showAllCards ? (
               <>
                 {epicCards.slice(0, 1).map((card) => (
-                  <CardComponent key={card.id} card={card} language={language} />
+                  <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
                 ))}
                 <CardPlaceholder opacity={0.7} />
                 <CardPlaceholder opacity={0.7} />
@@ -246,7 +246,7 @@ const CardPreviewsSection = () => {
             ) : (
               <>
                 {epicCards.map((card) => (
-                  <CardComponent key={card.id} card={card} language={language} />
+                  <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
                 ))}
                 {/* Add placeholder cards for missing epic designs */}
                 {Array.from({ length: Math.max(0, 6 - epicCards.length) }).map((_, index) => (
@@ -264,7 +264,7 @@ const CardPreviewsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          key={`common-${showAllCards}`}
+          key={`common-${showAllCards}-${language}`}
         >
           <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-center mb-8">
             <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent text-glow">
@@ -276,7 +276,7 @@ const CardPreviewsSection = () => {
             // Show only one common card initially
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {commonCards.slice(0, 1).map((card) => (
-                <CardComponent key={card.id} card={card} language={language} />
+                <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
               ))}
               <CardPlaceholder opacity={0.7} />
               <CardPlaceholder opacity={0.7} />
@@ -293,7 +293,7 @@ const CardPreviewsSection = () => {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     {cards.map((card) => (
-                      <CardComponent key={card.id} card={card} language={language} />
+                      <CardComponent key={`${card.id}-${language}`} card={card} language={language} />
                     ))}
                     {/* Add placeholder cards for missing designs */}
                     {Array.from({ length: Math.max(0, 9 - cards.length) }).map((_, index) => (
@@ -314,7 +314,7 @@ const CardPreviewsSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="text-center mb-12">
+          <div className="text-center mb-12" key={`rare-header-${language}`}>
             <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-white mb-4">
               <span className="text-secondary">Rare</span> Cards 
               <span className="text-gray-400 text-lg ml-3">(Coming Soon)</span>
