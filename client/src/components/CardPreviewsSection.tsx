@@ -4,7 +4,85 @@ import { Button } from "@/components/ui/button";
 import { cardData, rarityConfig } from "@/data/cardData";
 import { useLanguage } from "@/hooks/use-language";
 import { translations } from "@/data/translations";
-import cardBackImage from "/assets/Reverse cards_1749407177141.jpeg";
+const cardBackImage = "/assets/Reverse cards_1749407177141.jpeg";
+
+// Move CardComponent outside to properly handle language changes
+const CardComponent = ({ card, language }: { card: typeof cardData[0], language: string }) => {
+  const rarity = rarityConfig[card.rarity];
+  
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  return (
+    <motion.div 
+      className="card cursor-pointer"
+      variants={itemVariants}
+      whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+    >
+      <div className="card-inner relative aspect-[3/4] w-full max-w-sm mx-auto">
+        <div className="card-front absolute w-full h-full rounded-xl shadow-lg overflow-hidden">
+          <img 
+            src={card.image}
+            alt={card.name}
+            className="w-full h-full object-contain bg-black rounded-xl"
+            onError={(e) => {
+              const target = e.currentTarget;
+              target.style.display = 'none';
+              const fallback = target.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
+          />
+          <div 
+            className="w-full h-full rounded-xl p-1 hidden"
+            style={{ background: rarity.gradient }}
+          >
+            <div className="h-full w-full rounded-lg bg-card-texture bg-cover bg-center overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark/50 to-dark/90"></div>
+              <div className="absolute bottom-0 w-full p-4">
+                <h3 className="text-xl font-orbitron font-bold text-white mb-1">{card.name}</h3>
+                <p className="text-xs text-gray-200">{card.description[language as keyof typeof card.description]}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="card-back absolute w-full h-full rounded-xl shadow-lg">
+          <img 
+            src={cardBackImage}
+            alt="Card Back"
+            className="w-full h-full object-contain bg-black rounded-xl"
+            onError={(e) => {
+              const target = e.currentTarget;
+              target.style.display = 'none';
+              const fallback = target.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
+          />
+          <div className="w-full h-full rounded-xl bg-gradient-to-br from-primary/80 to-dark border border-primary/30 overflow-hidden relative flex-col items-center justify-center hidden">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-4">
+              <span className="text-4xl font-orbitron font-bold">BD</span>
+            </div>
+            <h3 className="font-orbitron text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              BRAINROT DUELTZ™
+            </h3>
+            <p className="text-xs text-gray-400 mt-2">
+              {language === 'en' ? 'Collect. Duel. Evolve.' : 'Colecciona. Duelo. Evoluciona.'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const CardPreviewsSection = () => {
   const { language } = useLanguage();
@@ -69,71 +147,7 @@ const CardPreviewsSection = () => {
         </div>
       </div>
     </motion.div>
-  );
-
-  const CardComponent = ({ card }: { card: typeof cardData[0] }) => {
-    const rarity = rarityConfig[card.rarity];
-    return (
-      <motion.div 
-        className="card cursor-pointer"
-        variants={itemVariants}
-        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-      >
-        <div className="card-inner relative aspect-[3/4] w-full max-w-sm mx-auto">
-          <div className="card-front absolute w-full h-full rounded-xl shadow-lg overflow-hidden">
-            <img 
-              src={card.image}
-              alt={card.name}
-              className="w-full h-full object-contain bg-black rounded-xl"
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.display = 'none';
-                const fallback = target.nextElementSibling as HTMLElement;
-                if (fallback) fallback.style.display = 'flex';
-              }}
-            />
-            <div 
-              className="w-full h-full rounded-xl p-1 hidden"
-              style={{ background: rarity.gradient }}
-            >
-              <div className="h-full w-full rounded-lg bg-card-texture bg-cover bg-center overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark/50 to-dark/90"></div>
-                <div className="absolute bottom-0 w-full p-4">
-                  <h3 className="text-xl font-orbitron font-bold text-white mb-1">{card.name}</h3>
-                  <p className="text-xs text-gray-200">{card.description[language]}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="card-back absolute w-full h-full rounded-xl shadow-lg">
-            <img 
-              src={cardBackImage}
-              alt="Card Back"
-              className="w-full h-full object-contain bg-black rounded-xl"
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.display = 'none';
-                const fallback = target.nextElementSibling as HTMLElement;
-                if (fallback) fallback.style.display = 'flex';
-              }}
-            />
-            <div className="w-full h-full rounded-xl bg-gradient-to-br from-primary/80 to-dark border border-primary/30 overflow-hidden relative flex-col items-center justify-center hidden">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-4">
-                <span className="text-4xl font-orbitron font-bold">BD</span>
-              </div>
-              <h3 className="font-orbitron text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                BRAINROT DUELTZ™
-              </h3>
-              <p className="text-xs text-gray-400 mt-2">
-                {language === 'en' ? 'Collect. Duel. Evolve.' : 'Colecciona. Duelo. Evoluciona.'}
-              </p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
+  );;
 
   return (
     <section id="cards" className="section-padding container-spacing bg-gradient-to-b from-dark via-gray-900 to-darker overflow-hidden">
@@ -187,7 +201,7 @@ const CardPreviewsSection = () => {
             {!showAllCards ? (
               <>
                 {legendaryCards.slice(0, 1).map((card) => (
-                  <CardComponent key={card.id} card={card} />
+                  <CardComponent key={card.id} card={card} language={language} />
                 ))}
                 <CardPlaceholder opacity={0.7} />
                 <CardPlaceholder opacity={0.7} />
@@ -195,7 +209,7 @@ const CardPreviewsSection = () => {
             ) : (
               <>
                 {legendaryCards.map((card) => (
-                  <CardComponent key={card.id} card={card} />
+                  <CardComponent key={card.id} card={card} language={language} />
                 ))}
                 {/* Add placeholder cards for missing legendary designs */}
                 {Array.from({ length: Math.max(0, 6 - legendaryCards.length) }).map((_, index) => (
@@ -224,7 +238,7 @@ const CardPreviewsSection = () => {
             {!showAllCards ? (
               <>
                 {epicCards.slice(0, 1).map((card) => (
-                  <CardComponent key={card.id} card={card} />
+                  <CardComponent key={card.id} card={card} language={language} />
                 ))}
                 <CardPlaceholder opacity={0.7} />
                 <CardPlaceholder opacity={0.7} />
@@ -232,7 +246,7 @@ const CardPreviewsSection = () => {
             ) : (
               <>
                 {epicCards.map((card) => (
-                  <CardComponent key={card.id} card={card} />
+                  <CardComponent key={card.id} card={card} language={language} />
                 ))}
                 {/* Add placeholder cards for missing epic designs */}
                 {Array.from({ length: Math.max(0, 6 - epicCards.length) }).map((_, index) => (
@@ -262,7 +276,7 @@ const CardPreviewsSection = () => {
             // Show only one common card initially
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {commonCards.slice(0, 1).map((card) => (
-                <CardComponent key={card.id} card={card} />
+                <CardComponent key={card.id} card={card} language={language} />
               ))}
               <CardPlaceholder opacity={0.7} />
               <CardPlaceholder opacity={0.7} />
@@ -279,7 +293,7 @@ const CardPreviewsSection = () => {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     {cards.map((card) => (
-                      <CardComponent key={card.id} card={card} />
+                      <CardComponent key={card.id} card={card} language={language} />
                     ))}
                     {/* Add placeholder cards for missing designs */}
                     {Array.from({ length: Math.max(0, 9 - cards.length) }).map((_, index) => (
