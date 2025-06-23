@@ -54,29 +54,17 @@ import epicChar4 from "/cards/Epic Character 4 _1750608450796.jpg?url";
 import epicChar5 from "/cards/Epic Character 5 _1750608450798.jpg?url";
 import epicChar6 from "/cards/Epic Character 6 _1750608450800.jpg?url";
 
-// Epic Fusions
-import bombardiroTralala from "/cards/epic-character-fusion- Bombardiro Tralala_1750357983488.jpg?url";
-import bombombiniLarila from "/cards/epic-character-fusion- Bombombini Larila_1750357983489.jpg?url";
-import brrBrrAssasino from "/cards/epic-character-fusion- Brr Brr Assasino_1750357983490.jpg?url";
-import frigoCameloSahur from "/cards/epic-character-fusion- Frigo Camelo Sahur_1750357983491.jpg?url";
-
-// Epic Evolution
-import sahurEvolution from "/cards/epic-character-evolution- Sahur Evolution lvl3_1750357983486.jpg?url";
-import goldTumTum from "/cards/epic-character-evolution-Gold Tum Tum Sahur_1750357983487.jpg?url";
-
 // Epic Scenario
-import sahurVillage from "/cards/epic-scenario- Sahur Village_1750357983492.jpg?url";
+import epicScenario1 from "/cards/Epic Scenario 1_1750608350858.jpg?url";
 
 // Legendary Characters
 import legendaryChar1 from "/cards/Legendary Character 1_1750608450803.jpg?url";
 import legendaryChar2 from "/cards/Legendary Character 2_1750608450805.jpg?url";
-import chimpanchinoAssasino from "/cards/legendary-character-fusion- Chimpanchino Assasino_1750357983493.jpg?url";
-import mysticalChimera from "/cards/legendary-character-fusion- Mystical Chimera_1750357983494.jpg?url";
 
-// Asset mapping for card data
-export const cardAssets = {
+// Asset mapping for card data - only includes current 39 cards
+export const cardAssets: Record<string, string> = {
   // Card Back
-  cardBack,
+  "cards.back_1750608006666.jpg": cardBack,
   
   // Common Characters - Cultural
   "common-character-cultural- Ballerina Capuchina_1750608006670.jpg": ballerina,
@@ -128,28 +116,16 @@ export const cardAssets = {
   "Epic Character 5 _1750608450798.jpg": epicChar5,
   "Epic Character 6 _1750608450800.jpg": epicChar6,
   
-  // Epic Fusions
-  "epic-character-fusion- Bombardiro Tralala_1750357983488.jpg": bombardiroTralala,
-  "epic-character-fusion- Bombombini Larila_1750357983489.jpg": bombombiniLarila,
-  "epic-character-fusion- Brr Brr Assasino_1750357983490.jpg": brrBrrAssasino,
-  "epic-character-fusion- Frigo Camelo Sahur_1750357983491.jpg": frigoCameloSahur,
-  
-  // Epic Evolution
-  "epic-character-evolution- Sahur Evolution lvl3_1750357983486.jpg": sahurEvolution,
-  "epic-character-evolution-Gold Tum Tum Sahur_1750357983487.jpg": goldTumTum,
-  
   // Epic Scenario
-  "epic-scenario- Sahur Village_1750357983492.jpg": sahurVillage,
+  "Epic Scenario 1_1750608350858.jpg": epicScenario1,
   
   // Legendary Characters
   "Legendary Character 1_1750608450803.jpg": legendaryChar1,
   "Legendary Character 2_1750608450805.jpg": legendaryChar2,
-  "legendary-character-fusion- Chimpanchino Assasino_1750357983493.jpg": chimpanchinoAssasino,
-  "legendary-character-fusion- Mystical Chimera_1750357983494.jpg": mysticalChimera,
 };
 
-// Helper function to get asset URL from filename
-export const getCardAsset = (filename: string): string => {
-  const assetKey = filename.replace('/cards/', '');
-  return cardAssets[assetKey as keyof typeof cardAssets] || '';
-};
+// Function to get card asset with fallback
+export function getCardAsset(imagePath: string): string {
+  const fileName = imagePath.split('/').pop() || '';
+  return cardAssets[fileName] || imagePath;
+}
