@@ -6,6 +6,11 @@ import { scrollToElement } from "@/lib/utils";
 import { brandAssets } from "@/data/gameData";
 import { cardData } from "@/data/cardData";
 import { useState } from "react";
+import { getCardAsset } from "@/data/assetImports";
+
+// Production-ready asset imports for Vercel
+import packagingImage from "/packaging.png?url";
+
 
 // Interactive Pack Opening Component
 const PackOpeningComponent = () => {
@@ -117,7 +122,7 @@ const PackOpeningComponent = () => {
       >
         <div className="w-80 h-96">
           <img 
-            src="/packaging.png"
+            src={packagingImage}
             alt="Card Pack"
             className="w-full h-full object-cover rounded-xl shadow-2xl"
           />
@@ -241,7 +246,7 @@ const PackOpeningComponent = () => {
                         }}
                       >
                         <img
-                          src={card.image}
+                          src={getCardAsset(card.image) || card.image}
                           alt={card.name}
                           className="w-full h-full object-cover"
                         />
